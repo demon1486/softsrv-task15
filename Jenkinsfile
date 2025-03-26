@@ -1,19 +1,23 @@
 pipeline {
     agent any
 
+    environment {
+        NVM_DIR = "$HOME/.nvm"
+    }
+
     stages {
         stage('Prepare') {
             steps {
                 echo 'Installing Node.js v22'
                 sh 'curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash'
-                sh '. ~/.nvm/nvm.sh && nvm install 22'
+                sh 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm install 22'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Show npm vers.'
-                sh '. ~/.nvm/nvm.sh && npm -v'
+                echo 'Show npm version'
+                sh 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && npm -v'
             }
         }
 
